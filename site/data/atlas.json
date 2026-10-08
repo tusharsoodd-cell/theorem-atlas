@@ -1,0 +1,408 @@
+{
+  "meta": {
+    "title": "Theorem Atlas",
+    "subtitle": "The dependency graph of AP Calculus AB — every concept, what it leans on, and where you stand.",
+    "version": "0.1.0",
+    "scope": "AP Calculus AB only. No series, no parametric/polar/vector, no integration by parts, no improper integrals (all BC topics). Alpha: the map is the product."
+  },
+  "chapters": [
+    {"id": "limits", "title": "Limits & Continuity", "order": 1},
+    {"id": "differentiation", "title": "Differentiation", "order": 2},
+    {"id": "applications", "title": "Applications of Derivatives", "order": 3},
+    {"id": "integration", "title": "Integration", "order": 4}
+  ],
+  "nodes": [
+    {
+      "id": "limit-intuition",
+      "title": "Limit of a function (intuitive)",
+      "kind": "definition",
+      "chapter": "limits",
+      "statement": "We write \\(\\lim_{x \\to a} f(x) = L\\) to mean: as \\(x\\) gets arbitrarily close to \\(a\\) (from either side), \\(f(x)\\) gets arbitrarily close to \\(L\\). The value \\(f(a)\\) itself is irrelevant — it may not even exist.",
+      "proof_sketch": null,
+      "notes": "Everything in calculus is a limit in disguise: derivatives, integrals, even continuity. If this node is shaky, the whole map wobbles.",
+      "depends_on": []
+    },
+    {
+      "id": "limit-epsdelta",
+      "title": "Epsilon–delta definition of limit",
+      "kind": "definition",
+      "chapter": "limits",
+      "statement": "\\(\\lim_{x \\to a} f(x) = L\\) means: for every \\(\\varepsilon > 0\\) there exists \\(\\delta > 0\\) such that \\(0 < |x - a| < \\delta\\) implies \\(|f(x) - L| < \\varepsilon\\).",
+      "proof_sketch": null,
+      "notes": "Not tested on the AP exam, but this is the bridge to real analysis: it turns 'arbitrarily close' into something you can prove things with. Enrichment, not required.",
+      "depends_on": ["limit-intuition"]
+    },
+    {
+      "id": "limit-laws",
+      "title": "Limit laws",
+      "kind": "theorem",
+      "chapter": "limits",
+      "statement": "If \\(\\lim_{x\\to a} f(x)\\) and \\(\\lim_{x\\to a} g(x)\\) exist, then limits respect sums, differences, products, quotients (denominator nonzero), powers, and roots: e.g. \\(\\lim (f+g) = \\lim f + \\lim g\\).",
+      "proof_sketch": "The sum law from epsilon–delta: given \\(\\varepsilon\\), pick \\(\\delta_1\\) making \\(|f - L| < \\varepsilon/2\\) and \\(\\delta_2\\) making \\(|g - M| < \\varepsilon/2\\); take \\(\\delta = \\min(\\delta_1, \\delta_2)\\) and apply the triangle inequality.",
+      "notes": "The workhorse you use without thinking. Every derivative rule proof leans on these.",
+      "depends_on": ["limit-intuition"]
+    },
+    {
+      "id": "squeeze",
+      "title": "Squeeze theorem",
+      "kind": "theorem",
+      "chapter": "limits",
+      "statement": "If \\(g(x) \\le f(x) \\le h(x)\\) near \\(a\\) and \\(\\lim_{x\\to a} g(x) = \\lim_{x\\to a} h(x) = L\\), then \\(\\lim_{x\\to a} f(x) = L\\).",
+      "proof_sketch": "From \\(|g - L| < \\varepsilon\\) and \\(|h - L| < \\varepsilon\\) we get \\(L - \\varepsilon < g \\le f \\le h < L + \\varepsilon\\), so \\(|f - L| < \\varepsilon\\).",
+      "notes": "How you prove limits you can't compute directly — most famously the \\(\\sin h / h\\) lemma.",
+      "depends_on": ["limit-laws"]
+    },
+    {
+      "id": "sinxh-lemma",
+      "title": "The \\(\\sin h / h\\) lemma",
+      "kind": "lemma",
+      "chapter": "limits",
+      "statement": "\\(\\lim_{h \\to 0} \\frac{\\sin h}{h} = 1\\).",
+      "proof_sketch": "For small \\(h > 0\\), geometry gives \\(\\sin h < h < \\tan h\\). Divide by \\(\\sin h\\): \\(1 < h/\\sin h < 1/\\cos h\\). Take reciprocals and squeeze as \\(h \\to 0^+\\); evenness handles \\(h < 0\\).",
+      "notes": "The single fact that unlocks all trig derivatives. Worth memorizing the picture, not just the result.",
+      "depends_on": ["squeeze"]
+    },
+    {
+      "id": "limits-infinity",
+      "title": "Limits at infinity & infinite limits",
+      "kind": "concept",
+      "chapter": "limits",
+      "statement": "\\(\\lim_{x\\to\\infty} f(x) = L\\) describes end behavior (horizontal asymptotes); \\(\\lim_{x\\to a} f(x) = \\infty\\) describes blow-up (vertical asymptotes). Computed with limit laws plus dominance: highest power wins.",
+      "proof_sketch": null,
+      "notes": "The language of asymptotes and end behavior — you need it for curve sketching later.",
+      "depends_on": ["limit-intuition"]
+    },
+    {
+      "id": "continuity",
+      "title": "Continuity at a point",
+      "kind": "definition",
+      "chapter": "limits",
+      "statement": "\\(f\\) is continuous at \\(a\\) if \\(\\lim_{x\\to a} f(x) = f(a)\\): the limit exists, the value exists, and they agree. Three ways to fail: hole, jump, blow-up.",
+      "proof_sketch": null,
+      "notes": "Continuity is the hypothesis of every big existence theorem on this map (IVT, EVT). Always check it first.",
+      "depends_on": ["limit-intuition"]
+    },
+    {
+      "id": "ivt",
+      "title": "Intermediate Value Theorem",
+      "kind": "theorem",
+      "chapter": "limits",
+      "statement": "If \\(f\\) is continuous on \\([a,b]\\) and \\(N\\) is between \\(f(a)\\) and \\(f(b)\\), then some \\(c\\) in \\((a,b)\\) has \\(f(c) = N\\).",
+      "proof_sketch": "Bisect: keep the half-interval whose endpoints straddle \\(N\\). Nested intervals shrink to a point \\(c\\); continuity forces \\(f(c) = N\\).",
+      "notes": "Why you're allowed to say 'the equation has a solution' — the theoretical backbone of root-finding.",
+      "depends_on": ["continuity"]
+    },
+    {
+      "id": "evt",
+      "title": "Extreme Value Theorem",
+      "kind": "theorem",
+      "chapter": "limits",
+      "statement": "If \\(f\\) is continuous on a closed interval \\([a,b]\\), then \\(f\\) attains an absolute maximum and an absolute minimum there.",
+      "proof_sketch": null,
+      "notes": "Proof needs completeness of the reals — beyond AB scope. What matters: it guarantees max/min exist, so optimization isn't wishful thinking. Closed interval + continuity are both essential (know the counterexamples).",
+      "depends_on": ["continuity"]
+    }
+,
+    {
+      "id": "deriv-def",
+      "title": "Derivative as a limit",
+      "kind": "definition",
+      "chapter": "differentiation",
+      "statement": "\\(f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}\\), when the limit exists. Instantaneous rate of change; slope of the tangent line.",
+      "proof_sketch": null,
+      "notes": "The second master definition after limits. Almost every differentiation rule is proved by feeding it through this limit plus the limit laws.",
+      "depends_on": ["limit-intuition"]
+    },
+    {
+      "id": "diff-implies-cont",
+      "title": "Differentiability implies continuity",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "If \\(f\\) is differentiable at \\(a\\), then \\(f\\) is continuous at \\(a\\). (The converse is false: \\(|x|\\) at 0.)",
+      "proof_sketch": "Write \\(f(x) - f(a) = \\frac{f(x)-f(a)}{x-a}\\cdot(x-a)\\). Take \\(x \\to a\\): the fraction tends to \\(f'(a)\\) and \\((x-a) \\to 0\\), so \\(f(x) \\to f(a)\\).",
+      "notes": "A two-line proof that upgrades every differentiability hypothesis into a continuity hypothesis for free.",
+      "depends_on": ["deriv-def", "continuity", "limit-laws"]
+    },
+    {
+      "id": "power-rule",
+      "title": "Power rule",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "\\(\\frac{d}{dx}[x^n] = nx^{n-1}\\) for (at least) positive integer \\(n\\); extends to all real \\(n\\).",
+      "proof_sketch": "For integer \\(n\\): expand \\((x+h)^n\\) with the binomial theorem; every term but \\(nx^{n-1}h\\) has \\(h^2\\) or higher, so they vanish in the difference quotient limit.",
+      "notes": "First rule you learn, and the template for how rules get proved: definition + limit laws + algebra.",
+      "depends_on": ["deriv-def"]
+    },
+    {
+      "id": "product-rule",
+      "title": "Product rule",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "\\((fg)' = f'g + fg'\\).",
+      "proof_sketch": "The add-and-subtract trick: \\(f(x+h)g(x+h) - f(x)g(x) = [f(x+h)-f(x)]g(x+h) + f(x)[g(x+h)-g(x)]\\). Divide by \\(h\\), take limits; continuity of \\(g\\) (from differentiability) handles \\(g(x+h) \\to g(x)\\).",
+      "notes": "Watch where continuity of \\(g\\) sneaks in — that's the differentiability-implies-continuity node doing quiet work.",
+      "depends_on": ["deriv-def", "limit-laws", "diff-implies-cont"]
+    },
+    {
+      "id": "quotient-rule",
+      "title": "Quotient rule",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "\\(\\left(\\frac{f}{g}\\right)' = \\frac{f'g - fg'}{g^2}\\) (where \\(g \\ne 0\\)).",
+      "proof_sketch": "Follows from the product rule applied to \\(f \\cdot g^{-1}\\) plus the chain rule — or directly from the definition with the same add-subtract trick.",
+      "notes": "Low over high minus high over low, over low-low. Memorize via the product-rule derivation, not the rhyme.",
+      "depends_on": ["product-rule", "chain-rule"]
+    },
+    {
+      "id": "chain-rule",
+      "title": "Chain rule",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "\\(\\frac{d}{dx}[f(g(x))] = f'(g(x))\\cdot g'(x)\\).",
+      "proof_sketch": "Idea: \\(\\frac{\\Delta y}{\\Delta x} = \\frac{\\Delta y}{\\Delta u}\\cdot\\frac{\\Delta u}{\\Delta x}\\). The subtlety: \\(\\Delta u\\) can be zero, so a fully rigorous proof needs a patch (define the difference quotient to be \\(f'(u_0)\\) when \\(\\Delta u = 0\\)). AB-level intuition via differentials is fine.",
+      "notes": "The most-used rule in calculus. Also the engine behind implicit differentiation, related rates, and u-substitution.",
+      "depends_on": ["deriv-def", "limit-laws"]
+    },
+    {
+      "id": "trig-derivs",
+      "title": "Derivatives of sine and cosine",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "\\(\\frac{d}{dx}\\sin x = \\cos x\\), \\(\\frac{d}{dx}\\cos x = -\\sin x\\).",
+      "proof_sketch": "Apply the definition to \\(\\sin\\): the difference quotient becomes \\(\\sin x\\cdot\\frac{\\cos h - 1}{h} + \\cos x\\cdot\\frac{\\sin h}{h}\\). The \\(\\sin h/h \\to 1\\) lemma plus \\((\\cos h-1)/h \\to 0\\) (multiply by \\((\\cos h+1)/(\\cos h+1)\\)) finish it.",
+      "notes": "This is why the \\(\\sin h/h\\) lemma exists. One lemma, all of trigonometry's calculus.",
+      "depends_on": ["sinxh-lemma", "deriv-def", "limit-laws"]
+    },
+    {
+      "id": "exp-log-derivs",
+      "title": "Derivatives of \\(e^x\\) and \\(\\ln x\\)",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "\\(\\frac{d}{dx}e^x = e^x\\); \\(\\frac{d}{dx}\\ln x = \\frac{1}{x}\\).",
+      "proof_sketch": "For \\(\\ln\\): differentiate \\(e^{\\ln x} = x\\) implicitly — \\(e^{\\ln x}\\cdot(\\ln x)' = 1\\), so \\((\\ln x)' = 1/x\\). For \\(e^x\\): it's the inverse-function mirror of the same fact.",
+      "notes": "\\(e^x\\) being its own derivative is the reason exponential models are everywhere. The \\(\\ln\\) proof is a great first implicit-differentiation payoff.",
+      "depends_on": ["implicit-diff", "chain-rule"]
+    },
+    {
+      "id": "inv-trig-derivs",
+      "title": "Derivatives of inverse trig functions",
+      "kind": "theorem",
+      "chapter": "differentiation",
+      "statement": "\\(\\frac{d}{dx}\\arcsin x = \\frac{1}{\\sqrt{1-x^2}}\\), \\(\\frac{d}{dx}\\arctan x = \\frac{1}{1+x^2}\\) (and similarly for the rest).",
+      "proof_sketch": "Let \\(y = \\arcsin x\\), so \\(\\sin y = x\\). Differentiate implicitly: \\(\\cos y \\cdot y' = 1\\), so \\(y' = 1/\\cos y = 1/\\sqrt{1-x^2}\\) (using \\(\\cos^2 y = 1 - \\sin^2 y\\)).",
+      "notes": "Pure implicit differentiation in action — no new ideas, just the technique applied to inverse relationships.",
+      "depends_on": ["implicit-diff", "trig-derivs"]
+    },
+    {
+      "id": "implicit-diff",
+      "title": "Implicit differentiation",
+      "kind": "technique",
+      "chapter": "differentiation",
+      "statement": "To differentiate an equation \\(F(x,y) = 0\\): differentiate both sides with respect to \\(x\\), treating \\(y\\) as a function of \\(x\\) (chain rule), then solve for \\(y'\\).",
+      "proof_sketch": null,
+      "notes": "Not a theorem — a technique. It's the chain rule wearing a costume, and it powers related rates, inverse-function derivatives, and tons of AP free-response.",
+      "depends_on": ["chain-rule"]
+    },
+    {
+      "id": "related-rates",
+      "title": "Related rates",
+      "kind": "technique",
+      "chapter": "differentiation",
+      "statement": "When quantities are linked by an equation and all vary with time, differentiate the equation with respect to \\(t\\) (chain rule / implicit differentiation) and solve for the unknown rate.",
+      "proof_sketch": null,
+      "notes": "A word-problem protocol more than a theorem: draw, label, write the relation, differentiate, substitute. The calculus is easy; the setup is the skill.",
+      "depends_on": ["implicit-diff", "chain-rule"]
+    },
+    {
+      "id": "fermat",
+      "title": "Fermat's theorem (interior extrema)",
+      "kind": "theorem",
+      "chapter": "applications",
+      "statement": "If \\(f\\) has a local max or min at \\(c\\) and \\(f'(c)\\) exists, then \\(f'(c) = 0\\).",
+      "proof_sketch": "At a local max, the difference quotient \\([f(c+h)-f(c)]/h\\) is \\(\\le 0\\) for \\(h > 0\\) and \\(\\ge 0\\) for \\(h < 0\\). The two-sided limit can only be 0.",
+      "notes": "Why critical points matter at all. Note the hypothesis 'derivative exists' — corners and cusps are critical points too, via the definition.",
+      "depends_on": ["deriv-def"]
+    },
+    {
+      "id": "rolles",
+      "title": "Rolle's theorem",
+      "kind": "theorem",
+      "chapter": "applications",
+      "statement": "If \\(f\\) is continuous on \\([a,b]\\), differentiable on \\((a,b)\\), and \\(f(a) = f(b)\\), then some \\(c\\) in \\((a,b)\\) has \\(f'(c) = 0\\).",
+      "proof_sketch": "By EVT, \\(f\\) attains a max and min on \\([a,b]\\). If both are at endpoints they're equal (constant function, derivative 0 everywhere); otherwise an interior extremum exists and Fermat gives \\(f'(c) = 0\\).",
+      "notes": "The hinge of the whole applications chapter: MVT is one clever auxiliary function away.",
+      "depends_on": ["evt", "fermat", "diff-implies-cont"]
+    },
+    {
+      "id": "mvt",
+      "title": "Mean Value Theorem",
+      "kind": "theorem",
+      "chapter": "applications",
+      "statement": "If \\(f\\) is continuous on \\([a,b]\\) and differentiable on \\((a,b)\\), then some \\(c\\) in \\((a,b)\\) has \\(f'(c) = \\frac{f(b)-f(a)}{b-a}\\).",
+      "proof_sketch": "Tilt the graph flat: apply Rolle's to \\(g(x) = f(x) - \\frac{f(b)-f(a)}{b-a}\\,x\\), which satisfies \\(g(a) = g(b)\\).",
+      "notes": "The most load-bearing theorem in first-year calculus: it justifies the first derivative test, L'Hôpital, error bounds, and half of analysis later.",
+      "depends_on": ["rolles"]
+    },
+    {
+      "id": "first-deriv-test",
+      "title": "First derivative test",
+      "kind": "theorem",
+      "chapter": "applications",
+      "statement": "If \\(f'\\) changes from + to − at \\(c\\), \\(f\\) has a local max there; − to +, a local min. (Consequence of MVT: sign of \\(f'\\) controls increase/decrease.)",
+      "proof_sketch": "MVT on \\([a,c]\\) and \\([c,b]\\): \\(f'\\) positive forces \\(f\\) up, negative forces it down. Sign change pins the extremum.",
+      "notes": "The practical classification tool. Draw the sign chart — it's MVT made mechanical.",
+      "depends_on": ["mvt"]
+    },
+    {
+      "id": "second-deriv-test",
+      "title": "Second derivative test & concavity",
+      "kind": "theorem",
+      "chapter": "applications",
+      "statement": "If \\(f'(c) = 0\\) and \\(f''(c) > 0\\), local min at \\(c\\) (reverse for max). Concavity: \\(f'' > 0\\) means concave up; sign changes of \\(f''\\) locate inflection points.",
+      "proof_sketch": "Second derivative test: \\(f''(c) > 0\\) means \\(f'\\) is increasing through 0 at \\(c\\) — so \\(f'\\) goes − to +, and the first derivative test applies.",
+      "notes": "Inconclusive when \\(f''(c) = 0\\) — fall back to the first derivative test. That's a favorite AP trap.",
+      "depends_on": ["deriv-def", "first-deriv-test"]
+    },
+    {
+      "id": "optimization",
+      "title": "Optimization",
+      "kind": "technique",
+      "chapter": "applications",
+      "statement": "To optimize: express the quantity as a function of one variable, find critical points (Fermat), and use EVT (closed interval) or the first derivative test to certify the extremum.",
+      "proof_sketch": null,
+      "notes": "Where EVT stops being abstract: it guarantees your critical-point hunt actually finds the global max. Always check endpoints on closed intervals.",
+      "depends_on": ["evt", "fermat", "first-deriv-test"]
+    },
+    {
+      "id": "lhôpital",
+      "title": "L'Hôpital's rule",
+      "kind": "theorem",
+      "chapter": "applications",
+      "statement": "If \\(\\lim f/g\\) is \\(0/0\\) or \\(\\infty/\\infty\\) (and hypotheses hold), then \\(\\lim_{x\\to a} \\frac{f(x)}{g(x)} = \\lim_{x\\to a} \\frac{f'(x)}{g'(x)}\\).",
+      "proof_sketch": "Follows from Cauchy's MVT: \\([f(x)-f(a)]/[g(x)-g(a)] = f'(c)/g'(c)\\) for \\(c\\) between \\(a\\) and \\(x\\). The full proof is beyond AB — know when it applies (indeterminate form, differentiability) instead.",
+      "notes": "Check the hypotheses before you fire it: indeterminate form required. \\(\\lim_{x\\to 0} \\sin x / x\\) doesn't need it — and using it there is circular, since the \\(\\sin h/h\\) lemma came first.",
+      "depends_on": ["mvt", "limit-laws"]
+    }
+,
+    {
+      "id": "antideriv",
+      "title": "Antiderivative",
+      "kind": "definition",
+      "chapter": "integration",
+      "statement": "\\(F\\) is an antiderivative of \\(f\\) if \\(F' = f\\). Antiderivatives differ by a constant (MVT corollary): the indefinite integral \\(\\int f(x)\\,dx = F(x) + C\\).",
+      "proof_sketch": null,
+      "notes": "Differentiation run backwards. The '+ C' isn't decoration — it's the MVT consequence that functions with the same derivative differ by a constant.",
+      "depends_on": ["deriv-def", "mvt"]
+    },
+    {
+      "id": "riemann",
+      "title": "Riemann sums",
+      "kind": "definition",
+      "chapter": "integration",
+      "statement": "Partition \\([a,b]\\) into \\(n\\) subintervals; a Riemann sum \\(\\sum f(x_i^*)\\,\\Delta x\\) approximates signed area. Left, right, midpoint, trapezoidal are choices of sample points \\(x_i^*\\).",
+      "proof_sketch": null,
+      "notes": "The integral's origin story: area as a limit of rectangles. Every 'set up the integral' problem starts here conceptually.",
+      "depends_on": ["limit-intuition"]
+    },
+    {
+      "id": "def-integral",
+      "title": "Definite integral",
+      "kind": "definition",
+      "chapter": "integration",
+      "statement": "\\(\\int_a^b f(x)\\,dx = \\lim_{n\\to\\infty} \\sum_{i=1}^n f(x_i^*)\\,\\Delta x\\): the limit of Riemann sums — net signed area under the curve.",
+      "proof_sketch": null,
+      "notes": "Two big ideas fused: a limit and an accumulation. Keep them separate in your head and FTC becomes obvious instead of miraculous.",
+      "depends_on": ["riemann", "limit-laws"]
+    },
+    {
+      "id": "integral-props",
+      "title": "Properties of definite integrals",
+      "kind": "theorem",
+      "chapter": "integration",
+      "statement": "Linearity, additivity over intervals (\\(\\int_a^b = \\int_a^c + \\int_c^b\\)), reversal (\\(\\int_a^b = -\\int_b^a\\)), and comparison (\\(f \\le g \\Rightarrow \\int f \\le \\int g\\)).",
+      "proof_sketch": "All inherited from the corresponding properties of finite sums, passed through the limit.",
+      "notes": "The quiet toolkit behind every integral manipulation. Additivity over intervals is what makes piecewise and absolute-value integrals work.",
+      "depends_on": ["def-integral"]
+    },
+    {
+      "id": "ftc1",
+      "title": "Fundamental Theorem, Part 1",
+      "kind": "theorem",
+      "chapter": "integration",
+      "statement": "If \\(f\\) is continuous on \\([a,b]\\), then \\(g(x) = \\int_a^x f(t)\\,dt\\) is differentiable and \\(g'(x) = f(x)\\): differentiation undoes accumulation.",
+      "proof_sketch": "The difference quotient \\([g(x+h)-g(x)]/h\\) is the average value of \\(f\\) over \\([x,x+h]\\); as \\(h \\to 0\\), continuity squeezes that average to \\(f(x)\\).",
+      "notes": "Why every accumulation function has an elementary derivative. This is the half of FTC that justifies 'integral of a rate is net change'.",
+      "depends_on": ["def-integral", "deriv-def", "continuity"]
+    },
+    {
+      "id": "ftc2",
+      "title": "Fundamental Theorem, Part 2",
+      "kind": "theorem",
+      "chapter": "integration",
+      "statement": "If \\(F' = f\\) on \\([a,b]\\), then \\(\\int_a^b f(x)\\,dx = F(b) - F(a)\\): definite integrals evaluated by antiderivatives.",
+      "proof_sketch": "Let \\(G(x) = \\int_a^x f\\). By FTC1, \\(G' = f = F'\\), so \\(G - F\\) is constant (MVT); evaluating at \\(a\\) pins the constant, and \\(x = b\\) gives the formula.",
+      "notes": "The evaluation half — the reason you spent weeks on antiderivatives. Notice the proof chains FTC1 + MVT: the map's two biggest threads meeting.",
+      "depends_on": ["ftc1", "antideriv", "mvt"]
+    },
+    {
+      "id": "usub",
+      "title": "U-substitution",
+      "kind": "technique",
+      "chapter": "integration",
+      "statement": "\\(\\int f(g(x))g'(x)\\,dx = \\int f(u)\\,du\\) with \\(u = g(x)\\): the chain rule run backwards. For definite integrals, change the bounds (\\(u = g(a)\\), \\(u = g(b)\\)) instead of back-substituting.",
+      "proof_sketch": null,
+      "notes": "Pattern recognition skill: spot the inner function \\(g\\) and check its derivative is sitting nearby (up to a constant). Definite-integral bound-changing is the AP favorite.",
+      "depends_on": ["chain-rule", "ftc2"]
+    },
+    {
+      "id": "area-curves",
+      "title": "Area between curves",
+      "kind": "technique",
+      "chapter": "integration",
+      "statement": "Area between \\(y = f(x)\\) and \\(y = g(x)\\) from \\(a\\) to \\(b\\): \\(\\int_a^b |f - g|\\,dx\\). Split at intersection points where the top function changes.",
+      "proof_sketch": null,
+      "notes": "An application, not a theorem — it's the definite integral plus geometry. Sketch first; the picture tells you the bounds and the top/bottom.",
+      "depends_on": ["def-integral", "integral-props"]
+    },
+    {
+      "id": "volumes",
+      "title": "Volumes by disks & washers",
+      "kind": "technique",
+      "chapter": "integration",
+      "statement": "Revolve a region about an axis: cross-sections are disks (\\(\\pi r^2\\)) or washers (\\(\\pi(R^2 - r^2)\\)). Volume = \\(\\int \\pi(\\text{radius})^2\\,dx\\).",
+      "proof_sketch": null,
+      "notes": "Riemann sums in 3D: each thin slice is (approximately) a disk, and the integral is the limit. Same idea as area, one dimension up.",
+      "depends_on": ["def-integral", "riemann"]
+    },
+    {
+      "id": "avg-value",
+      "title": "Average value of a function",
+      "kind": "theorem",
+      "chapter": "integration",
+      "statement": "\\(f_{\\text{avg}} = \\frac{1}{b-a}\\int_a^b f(x)\\,dx\\). (MVT for integrals: a continuous \\(f\\) attains this value at some \\(c\\).)",
+      "proof_sketch": null,
+      "notes": "The continuous analogue of averaging a list. Shows up in 'average rate' and motion problems.",
+      "depends_on": ["def-integral", "ivt"]
+    },
+    {
+      "id": "slope-fields",
+      "title": "Slope fields",
+      "kind": "concept",
+      "chapter": "integration",
+      "statement": "For \\(dy/dx = F(x,y)\\), a slope field draws the tangent slope at a grid of points; solution curves follow the slopes. A picture of a differential equation's solutions without solving it.",
+      "proof_sketch": null,
+      "notes": "Qualitative before quantitative: you can sketch solution behavior (growth, equilibria) straight from the field.",
+      "depends_on": ["deriv-def"]
+    },
+    {
+      "id": "separable-de",
+      "title": "Separable differential equations",
+      "kind": "technique",
+      "chapter": "integration",
+      "statement": "If \\(dy/dx = g(x)h(y)\\), separate: \\(\\int \\frac{dy}{h(y)} = \\int g(x)\\,dx\\), integrate both sides (antiderivatives + u-sub), solve for \\(y\\), use the initial condition.",
+      "proof_sketch": null,
+      "notes": "AB's capstone technique: it chains antiderivatives, u-substitution, and algebra. Exponential growth/decay models live here.",
+      "depends_on": ["antideriv", "usub", "slope-fields"]
+    }
+  ]
+}

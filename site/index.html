@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theorem Atlas — Calculus AB</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>Theorem Atlas</h1>
+    <p class="subtitle">The dependency graph of AP Calculus AB</p>
+  </div>
+  <div class="overall">
+    <div class="progress-label"><span id="known-count">0</span> / <span id="total-count">0</span> known</div>
+    <div class="bar"><div id="overall-bar" class="fill"></div></div>
+  </div>
+</header>
+
+<nav id="chapters"></nav>
+
+<main>
+  <section id="graph-wrap">
+    <div id="graph"></div>
+    <div class="legend">
+      <span class="dot unseen"></span> unseen
+      <span class="dot learning"></span> learning
+      <span class="dot known"></span> known
+      <span class="dot shaky"></span> shaky
+    </div>
+  </section>
+
+  <aside id="side">
+    <section id="upnext" class="card">
+      <h2>Up next</h2>
+      <p class="hint">Everything whose dependencies you already know.</p>
+      <ul id="upnext-list"></ul>
+    </section>
+
+    <section id="inspect" class="card hidden">
+      <div class="inspect-head">
+        <span id="inspect-kind" class="kind"></span>
+        <button id="inspect-close" title="close">×</button>
+      </div>
+      <h2 id="inspect-title"></h2>
+      <div id="inspect-statement" class="math"></div>
+      <div id="inspect-proof-wrap">
+        <h3>Proof sketch</h3>
+        <div id="inspect-proof" class="math"></div>
+      </div>
+      <div id="inspect-notes-wrap">
+        <h3>Why it matters</h3>
+        <div id="inspect-notes" class="math"></div>
+      </div>
+      <h3>Depends on</h3>
+      <div id="inspect-deps" class="chips"></div>
+      <h3>Unlocks</h3>
+      <div id="inspect-children" class="chips"></div>
+      <h3>Your status</h3>
+      <div id="inspect-status" class="status-btns"></div>
+    </section>
+
+    <section id="about" class="card">
+      <h2>How to use this</h2>
+      <p>Click any node to inspect it. Mark things <em>known</em> as you learn them and the
+      <strong>Up next</strong> list tells you what you're ready for. Stuck on a proof?
+      Open it and look two levels down — the shaky dependency is usually there.</p>
+      <button id="reset" class="ghost">reset progress</button>
+    </section>
+  </aside>
+</main>
+
+<footer>
+  <span>Alpha: AP Calculus AB only — no series, no parametric/polar, no BC topics.</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/dist/vis-network.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
